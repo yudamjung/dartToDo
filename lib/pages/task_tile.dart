@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TaskTile extends StatelessWidget {
-  const TaskTile({super.key});
+  const TaskTile({
+    super.key,
+    required this.task,
+    required this.isCompleted,
+    required this.onChanged,
+  });
+
+  final String task;
+  final bool isCompleted;
+  final Function(bool?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +24,8 @@ class TaskTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Checkbox(value: value, onChanged: onChanged),
-            Text(
-              "Make a coffee",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
+            Checkbox(value: isCompleted, onChanged: onChanged),
+            Text(task, style: TextStyle(color: Colors.white, fontSize: 20)),
           ],
         ),
       ),

@@ -10,6 +10,18 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+  List todoTask = [
+    ["Meet my friend", false],
+    ["Make a dinner", false],
+  ];
+
+  void checkBoxTapped(int index) {
+    setState(() {
+      // Toggle the completion status of the task at the given index
+      todoTask[index][1] = !todoTask[index][1];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,34 +31,16 @@ class _TodoListState extends State<TodoList> {
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
-      body: ListView(
-        children: [
-          TaskTile(
-            task: "Make a coffee",
-            isCompleted: true,
-            onChanged: (p0) {},
-          ),
-          TaskTile(
-            task: "Make a coffee",
-            isCompleted: true,
-            onChanged: (p0) {},
-          ),
-          TaskTile(
-            task: "Make a coffee",
-            isCompleted: true,
-            onChanged: (p0) {},
-          ),
-          TaskTile(
-            task: "Make a coffee",
-            isCompleted: true,
-            onChanged: (p0) {},
-          ),
-          TaskTile(
-            task: "Make a coffee",
-            isCompleted: true,
-            onChanged: (p0) {},
-          ),
-        ],
+
+      body: ListView.builder(
+        itemCount: todoTask.length,
+        itemBuilder: (context, index) {
+          return TaskTile(
+            task: todoTask[index][0],
+            isCompleted: todoTask[index][1],
+            onChanged: (value) => checkBoxTapped(index),
+          );
+        },
       ),
     );
   }

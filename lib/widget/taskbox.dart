@@ -9,6 +9,7 @@ class TaskBox extends StatelessWidget {
     required this.onSave,
     required this.onCancel,
   });
+  // TextEditingController는 TextField의 텍스트를 제어(값 읽기,수정 등)하는 데 사용되는 클래스
   final TextEditingController controller;
   final VoidCallback onSave;
   final VoidCallback onCancel;

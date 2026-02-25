@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:todoapp/pages/task_tile.dart';
 import 'package:todoapp/widget/taskbox.dart';
 
@@ -11,6 +10,8 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+  final _controller = TextEditingController();
+
   List todoTask = [
     ["Meet my friend", false],
     ["Make a dinner", false],
@@ -23,11 +24,22 @@ class _TodoListState extends State<TodoList> {
     });
   }
 
+  void saveTask() {
+    setState(() {
+      todoTask.add([_controller.text, false]);
+      Navigator.pop(context);
+    });
+  }
+
   void addNewTask() {
     showDialog(
       context: context,
       builder: (context) {
-        return TaskBox();
+        return TaskBox(
+          controller: _controller,
+          onSave: saveTask,
+          onCancel: () => Navigator.pop(context),
+        );
       },
     );
   }

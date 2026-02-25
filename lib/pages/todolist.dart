@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todoapp/pages/task_tile.dart';
+import 'package:todoapp/widget/taskbox.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({super.key});
@@ -22,6 +23,15 @@ class _TodoListState extends State<TodoList> {
     });
   }
 
+  void addNewTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return TaskBox();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +51,10 @@ class _TodoListState extends State<TodoList> {
             onChanged: (value) => checkBoxTapped(index),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: addNewTask,
+        child: Icon(Icons.add),
       ),
     );
   }

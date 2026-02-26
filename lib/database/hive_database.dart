@@ -6,12 +6,18 @@ class HiveDatabase {
 
   void createData() {
     todoTask = [
-      ["Go to the appointment", false],
+      ["Go to the appointment", false, DateTime.now()],
     ];
   }
 
   void loadData() {
     todoTask = _dataBox.get('TODOTASK');
+
+    for (int i = 0; i < todoTask.length; i++) {
+      if (todoTask[i].length < 3) {
+        todoTask[i].add(DateTime.now());
+      }
+    }
   }
 
   void updateData() {

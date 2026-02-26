@@ -35,28 +35,34 @@ class _TodoListState extends State<TodoList> {
     db.updateData(); // 데이터베이스에 변경 사항을 저장
   }
 
-  // 새로운 할 일을 추가하는 함수
-  void saveTask() {
-    setState(() {
-      db.todoTask.add([_controller.text, false]);
-      _controller.clear(); // 텍스트 필드를 초기화하여 다음 입력을 준비
-      Navigator.pop(context);
-    });
-    db.updateData(); // 데이터베이스에 변경 사항을 저장
-  }
+  // // 새로운 할 일을 추가하는 함수
+  // void saveTask() {
+  //   setState(() {
+  //     db.todoTask.add([_controller.text, false]);
+  //     _controller.clear(); // 텍스트 필드를 초기화하여 다음 입력을 준비
+  //     Navigator.pop(context);
+  //   });
+  //   db.updateData(); // 데이터베이스에 변경 사항을 저장
+  // }
 
-  // FAB를 클릭해 새로운 할 일을 추가하는 다이얼로그를 표시하는 함수
-  void addNewTask() {
-    showDialog(
+  // FAB를 클릭해 새로운 할 일을 추가하는  다이얼로그를 표시하는 함수
+  void addNewTask() async {
+    final result = await showDialog<Map<String, dynamic>>(
       context: context,
       builder: (context) {
         return TaskBox(
           controller: _controller,
-          onSave: saveTask,
           onCancel: () => Navigator.pop(context),
         );
       },
     );
+
+    if (result != null) {
+      setState(() {
+        db.todoTask.add([result['task'], false, result['dateTime']]);
+      });
+      db.updateData();
+    }
   }
 
   // todoTask 리스트에서 해당 인덱스의 할 일을 삭제하는 함수
@@ -84,6 +90,7 @@ class _TodoListState extends State<TodoList> {
           return TaskTile(
             task: db.todoTask[index][0],
             isCompleted: db.todoTask[index][1],
+            taskTime: db.todoTask[index][2],
             onChanged: (value) => checkBoxTapped(index),
             deleteFunction: (context) => deleteTask(index),
           );

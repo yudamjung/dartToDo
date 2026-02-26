@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 
 class TaskTile extends StatelessWidget {
   const TaskTile({
@@ -8,10 +9,12 @@ class TaskTile extends StatelessWidget {
     required this.isCompleted,
     required this.onChanged,
     required this.deleteFunction,
+    required this.taskTime,
   });
 
   final String task;
   final bool isCompleted;
+  final DateTime taskTime;
   // 체크박스의 상태가 변경될 때 호출되는 콜백 함수
   // bool? 값을 하나 받는 nullable 함수
   final Function(bool?)? onChanged;
@@ -19,6 +22,8 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatTime = DateFormat("yyyy-MM-dd HH:mm").format(taskTime);
+
     return Padding(
       padding: const EdgeInsets.all(25),
       // Slidable 위젯은 리스트 아이템을 슬라이드하여 추가적인 액션을 제공하는 데 사용
@@ -50,14 +55,23 @@ class TaskTile extends StatelessWidget {
                 activeColor: Colors.black,
                 side: BorderSide(color: Colors.black, width: 2),
               ),
-              Text(
-                task,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  // 할 일이 종료되면 텍스트에 취소선을 적용
-                  decoration: isCompleted ? TextDecoration.lineThrough : null,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    task,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      // 할 일이 종료되면 텍스트에 취소선을 적용
+                      decoration: isCompleted
+                          ? TextDecoration.lineThrough
+                          : null,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(formatTime, style: TextStyle(color: Colors.white70)),
+                ],
               ),
             ],
           ),
